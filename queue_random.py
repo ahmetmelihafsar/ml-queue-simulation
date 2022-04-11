@@ -10,7 +10,7 @@ class Customer:
     all_customers = list()
     def __init__(self,name:str="") -> None:
         self.name = name
-        self.leave_time = -1
+        self.leave_time = 0
         self.all_customers.append(self)
     
     def leave(self, curr_time):
@@ -20,7 +20,7 @@ class Customer:
         self.enter_time = curr_time
 
     def __str__(self) -> str:
-        if self.leave_time == -1:
+        if self.leave_time == 0:
             self.leave_time = "not left"
         return f"Customer: {self.name},\tenter_time: {self.enter_time},\tleave_time: {self.leave_time} "
     

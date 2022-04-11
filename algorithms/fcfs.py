@@ -36,13 +36,13 @@ class Server:
     def run_step(self,curr_time:int):
 
         curr_queue = self.__get_best_queue()
-        print("current time:",curr_time)
-        print("length of the current queue: ", len(curr_queue.queue))
+        # print("current time:",curr_time)
+        # print("length of the current queue: ", len(curr_queue.queue))
         if (len(curr_queue.queue) > 0):
             if random.random() < self.next_finish_possibility:
                 curr_queue.popleft(curr_time)
         if random.random() < self.new_customer_possibility:
                 new_customer = Customer(curr_time)
                 curr_queue.append(new_customer,curr_time)
-        print(curr_queue)
-        print()
+        # print(curr_queue)
+        # print()

@@ -2,8 +2,8 @@ from typing import List
 import random
 from queue_random import Customer, Queue
 
-# Shortest Job First
-# This server looks at all the queues to determine which one is the shortest, then it serves that queue.
+# Longest Queue First
+# This server looks at all the queues to determine which one is the longest, then it serves that queue.
 
 
 class Server:
