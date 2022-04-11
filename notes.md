@@ -1,0 +1,1 @@
+Queues start from left and extend into right by appending new customers.
