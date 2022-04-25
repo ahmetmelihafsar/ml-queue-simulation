@@ -1,12 +1,12 @@
 import random
-from scipy.special import ndtr
+#from scipy.special import ndtr
 
 class Customer:
 
-    def __init__(self, enterTime, name, customerType, maxCustomerType):
+    def __init__(self, enterTime, name, customerType, maxCustomerType, finishPos):
         self.enterTime = enterTime
         self.finishTime = None
-        self.finishPos = ndtr(random.uniform(0.1, 0.3)*(maxCustomerType-customerType))
+        self.finishPos = finishPos
         self.name = name
         self.customerType = customerType
 

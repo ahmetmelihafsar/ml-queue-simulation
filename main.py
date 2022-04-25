@@ -6,12 +6,13 @@ LOOP_COUNT = 1000000
 DEFAULT_PROBABILITY = 0.5
 INCREASED_PROBABILITY = 0.7
 
-myQueue = Queue(p=DEFAULT_PROBABILITY)
-myQueue2 = Queue(p=DEFAULT_PROBABILITY)
-allQueues = [myQueue, myQueue2]
+myQueue = Queue(p=DEFAULT_PROBABILITY, queueFinishPos = 0.4)
+myQueue2 = Queue(p=DEFAULT_PROBABILITY, queueFinishPos = 0.8)
+myQueue3 = Queue(p=DEFAULT_PROBABILITY, queueFinishPos = 0.6)
+allQueues = [myQueue, myQueue2, myQueue3]
 
 # Possible Algorithm Names: "SRPT", "FCFS"
-myServer = Server(allQueues, serverCount=3, algorithm_name="SRPT")
+myServer = Server(allQueues, serverCount=5, algorithm_name="SRPT")
 
 
 for time in range(1, LOOP_COUNT + 1):
@@ -24,8 +25,10 @@ for time in range(1, LOOP_COUNT + 1):
     # Until 2/3 of the day which is 16.00
     if time == LOOP_COUNT // 3:
         myServer.set_all_new_customer_pos(INCREASED_PROBABILITY)
+        myServer.set_server_count(6)
     if time == LOOP_COUNT // 3 * 2:
         myServer.set_all_new_customer_pos(DEFAULT_PROBABILITY)
+        myServer.set_server_count(5)
 
 print("*******************")
 print("Statistics: ")

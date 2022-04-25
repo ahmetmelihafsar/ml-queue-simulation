@@ -4,17 +4,18 @@ from free_funtions import binary_search
 
 class Queue:
 
-    def __init__(self, p):
+    def __init__(self, p, queueFinishPos):
         self.queue = list()
         self.newCustomerPos = p
-
+        self.queueFinishPos = queueFinishPos
+        self.assigned_num_of_servers = 0
 
     def get_queue(self):
         return self.queue
 
     def add_new_customer(self, enterTime, customerType, maxCustomerType, algorithmName):
         if random.random() <= self.newCustomerPos:
-            newCustomer = Customer(enterTime, "None", customerType, maxCustomerType)
+            newCustomer = Customer(enterTime, "None", customerType, maxCustomerType, self.queueFinishPos)
             if algorithmName == "FCFS":
                 self.queue.append(newCustomer)
             elif algorithmName == "SRPT":

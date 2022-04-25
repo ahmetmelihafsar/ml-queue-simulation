@@ -1,3 +1,4 @@
+from asyncio import queues
 import random
 import sys
 
@@ -11,9 +12,29 @@ class Server:
         self.workingTimeInUnitTime = 0
         self.candidateFinder = self.return_function_to_find_best_candidate(algorithm_name)
         self.algorithmName = algorithm_name
+        self.assign_servers_to_queues(self.serverCount)
 
     def get_queues(self):
         return self.queues
+
+    def set_server_count(self, s):
+        self.serverCount = s
+        self.assign_servers_to_queues(self.serverCount)
+
+    def assign_servers_to_queues(self, s):
+        default_num_of_servers = s // len(self.queues)
+        remaining_servers = s % len(self.queues)
+
+        bestQueue = self.queues[0]
+        maxPossibility = 0
+
+        for currentQueue in self.queues:
+            currentQueue.assigned_num_of_servers = default_num_of_servers
+            if currentQueue.queueFinishPos > maxPossibility:
+                maxPossibility = currentQueue.queueFinishPos
+                bestQueue = currentQueue
+        
+        bestQueue.assigned_num_of_servers += remaining_servers
 
     def get_all_customers(self):
         return self.allCustomers
@@ -98,7 +119,6 @@ class Server:
 
         return (bestQueue, 0)
 
-
     def iterate_server(self, time):
         # Get the function to find the best candidate based on the given algorithm
         candidate_finder = self.candidateFinder
@@ -119,6 +139,17 @@ class Server:
         # Add new customer for every queue
         self.add_customer_to_all_queues(time)
 
+    def alternative_iterate_server(self, time):
+        candidate_finder = self.candidateFinder
+        for currQueue in self.queues:
+            for i in range(currQueue.assigned_num_of_servers):
+                if currQueue.get_queue():
+                    self.iterate_queue(currQueue, 0, time)
+                else:
+                    foundQueue, foundCustomerIndex = candidate_finder()
+                    if foundQueue.get_queue():
+                        self.iterate_queue(foundQueue, foundCustomerIndex, time)
+        self.add_customer_to_all_queues(time)
 
     def iterate_queue(self, currQueue, bestCustomerIndex, time):
         ##############################################
